@@ -1,2 +1,89 @@
-# psychic
-//yooo
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Psychic</title>
+</head>
+
+<body>
+
+    <h2>Can you guess what letter I'm thinking of ?</h2>
+    <hr>
+
+    <div id="game">
+        <div id="user-guess"> You Guessed: </div>
+        <div id="computer-guess"> Computer Guessed: </div>
+        <div id="wins"> Wins: </div>
+        <div id="losses"> Losses: </div>
+    </div>
+
+    <script type="text/javascript">
+        // Creates an array that lists out all of the options (26 alphabet letters).
+        var computerChoices = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k',
+            'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm',
+        ];
+
+        // initialize variables
+        var wins = 0;
+        var losses = 0;
+        var tries = 9;
+        var computerGuess = generateRandomLetter(computerChoices);
+
+        // "grab" divs
+        var winsElement = document.getElementById('wins');
+        var lossesElement = document.getElementById('losses');
+        var userGuessElement = document.getElementById('user-guess');
+        var computerElement = document.getElementById('computer-guess');
+
+        computerElement.textContent += computerGuess;
+
+        // This function is run whenever the user presses a key.
+        document.onkeyup = function (event) {
+
+            // Determines which key was pressed.
+            var userGuess = event.key;
+            
+            // Display guess on screen.
+            userGuessElement.textContent += userGuess + ', ';
+            tries--;
+            // Determines if there is a match 
+            if (userGuess == computerGuess) {
+                    alert("YOU WIN!!!");
+                    // Increment wins counter
+                    wins++;
+                    // Reset tries counter
+                    tries = 9;
+                    // Reset guesses
+                    userGuessElement.textContent = 'You Guessed: ';
+                    // Generate new letter
+                    computerGuess = generateRandomLetter(computerChoices);
+            } else if (tries == 0) {
+                alert("YOU LOSE");
+                // Increment losses counter
+                losses++;
+                // Reset tries counter
+                tries = 9;
+                // Reset guesses
+                userGuessElement.textContent = 'You Guessed: ';
+                // Generate new letter
+                computerGuess = generateRandomLetter(computerChoices);
+            }
+
+            // Update score
+            winsElement.textContent = "Wins: " + wins;
+            lossesElement.textContent = "Losses: " + losses;
+            computerElement.textContent = "Computer Guessed: " + computerGuess;
+
+            // Decrement guesses left upon keypress.
+        }
+
+        // This function generates a random alphabet letter.
+        function generateRandomLetter() {
+            return computerChoices[Math.floor(Math.random() * computerChoices.length)];
+        }
+    </script>
+
+</body>
+
+</html>
